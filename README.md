@@ -1,8 +1,9 @@
+![AI Research Lab Preview](output.png)
+
 # 🧬 Autonomous AI Research Lab (Multi-Agent System)
 
 A professional-grade **Multi-Agent System (MAS)** built with **CrewAI**, **Streamlit**, and **Google Gemini / Groq**. This project demonstrates autonomous collaboration between specialized AI agents to produce high-fidelity technical research reports.
 
-![Project Preview](output.png)
 
 ## 🚀 Key Features
 
