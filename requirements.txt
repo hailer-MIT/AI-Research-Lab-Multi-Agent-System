@@ -1,0 +1,7 @@
+crewai[google-genai]
+crewai-tools
+python-dotenv
+streamlit
+duckduckgo-search
+langchain_google_genai
+langchain-community
