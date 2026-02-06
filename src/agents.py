@@ -1,34 +1,46 @@
 import os
 from dotenv import load_dotenv
-from crewai import Agent
-from langchain_google_genai import ChatGoogleGenerativeAI
+from crewai import Agent, LLM
 from crewai.tools import tool
 
 load_dotenv()
 
-# Initialize Searching Tool
+# Force UTF-8 environment for all underlying libraries to fix Groq encoding errors
+os.environ["PYTHONIOENCODING"] = "utf-8"
+
 @tool("search_tool")
 def search_tool(topic: str):
     """Search the internet for information on a given topic."""
-    from langchain_community.tools import DuckDuckGoSearchRun
-    return DuckDuckGoSearchRun().run(topic)
+    try:
+        from langchain_community.tools import DuckDuckGoSearchRun
+        return DuckDuckGoSearchRun().run(topic)
+    except Exception as e:
+        return f"Error using search tool: {str(e)}"
 
 class ResearchAgents:
-    def __init__(self):
-        # We use the LangChain class which is more stable for AI Studio keys
-        self.llm = ChatGoogleGenerativeAI(
-            model="gemini-1.5-flash",
-            google_api_key=os.getenv("GOOGLE_API_KEY"),
-            temperature=0.5
-        )
+    def __init__(self, provider="google", api_key=None):
+        self.api_key = api_key.strip() if api_key else None
+        self.provider = provider.lower()
+        
+        if self.provider == "google":
+            self.llm = LLM(
+                model="gemini/gemini-2.0-flash",
+                api_key=self.api_key,
+                temperature=0.4
+            )
+        elif self.provider == "groq":
+            # Using the absolute safest string for the model
+            self.llm = LLM(
+                model="groq/llama-3.3-70b-versatile",
+                api_key=self.api_key,
+                temperature=0.4
+            )
 
     def researcher_agent(self):
         return Agent(
-            role="Deep Search Researcher",
-            goal="Scan the web and academic sources to find high-quality, up-to-date information on {topic}.",
-            backstory="""You are an expert researcher with a knack for finding hidden gems in technical blogs, 
-            news articles, and academic papers. You distinguish between hype and reality, 
-            ensuring the data collected is factual and relevant.""",
+            role="Lead Researcher",
+            goal="Identify the most accurate and recent details about {topic}.",
+            backstory="You are a professional researcher. You verify all facts and ignore hype.",
             tools=[search_tool],
             llm=self.llm,
             allow_delegation=False,
@@ -37,11 +49,9 @@ class ResearchAgents:
 
     def technical_analyst_agent(self):
         return Agent(
-            role="Technical Strategy Analyst",
-            goal="Analyze the research findings about {topic} to identify trends, pros/cons, and future implications.",
-            backstory="""You are a veteran technology strategist. You take raw information and 
-            turn it into actionable insights. You excel at structured thinking and 
-            identifying the 'so what?' behind technological shifts.""",
+            role="Technology Strategist",
+            goal="Provide strategic insights based on findings about {topic}.",
+            backstory="You analyze trends and patterns to identify the significance of research data.",
             llm=self.llm,
             allow_delegation=True,
             verbose=True
@@ -49,11 +59,9 @@ class ResearchAgents:
 
     def scientific_writer_agent(self):
         return Agent(
-            role="Chief Scientific Editor",
-            goal="Synthesize all findings into a professional, academic-style markdown report on {topic}.",
-            backstory="""You are a world-class technical writer. You take complex analyses and 
-            present them in a clear, persuasive, and beautifully structured report. 
-            You ensure the final output is ready for a C-suite executive or a lead researcher.""",
+            role="Scientific Editor",
+            goal="Create a professional report about {topic} in markdown format.",
+            backstory="You write clearly and present complex data in a professional structure.",
             llm=self.llm,
             allow_delegation=False,
             verbose=True

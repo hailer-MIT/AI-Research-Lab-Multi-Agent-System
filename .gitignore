@@ -1,8 +1,9 @@
 venv/
+.env
 __pycache__/
 *.pyc
-.env
-research_report.md
-.streamlit/
 .ipynb_checkpoints/
-*.log
+research_report.md
+research_report_*.md
+*.png
+!output.png

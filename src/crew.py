@@ -3,12 +3,14 @@ from agents import ResearchAgents
 from tasks import ResearchTasks
 
 class ResearchCrew:
-    def __init__(self, topic):
+    def __init__(self, topic, provider="google", api_key=None):
         self.topic = topic
+        self.provider = provider
+        self.api_key = api_key
 
     def run(self):
         # 1. Initialize Agents
-        agents = ResearchAgents()
+        agents = ResearchAgents(provider=self.provider, api_key=self.api_key)
         researcher = agents.researcher_agent()
         analyst = agents.technical_analyst_agent()
         writer = agents.scientific_writer_agent()
@@ -20,13 +22,13 @@ class ResearchCrew:
         t3 = tasks.writing_task(writer, self.topic)
 
         # 3. Assemble the Crew
-        # We use a sequential process to demonstrate the flow of knowledge
         crew = Crew(
             agents=[researcher, analyst, writer],
             tasks=[t1, t2, t3],
             process=Process.sequential,
             verbose=True,
-            memory=False # We disable this to avoid the OpenAI API key requirement
+            memory=False,
+            max_rpm=2 # This prevents hitting the Groq/Gemini rate limits
         )
 
         return crew.kickoff()

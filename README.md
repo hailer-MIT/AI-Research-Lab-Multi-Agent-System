@@ -1,45 +1,73 @@
-# 🧬 Autonomous AI Research Lab (MAS)
+# 🧬 Autonomous AI Research Lab (Multi-Agent System)
 
-A specialized Multi-Agent System (MAS) built with **CrewAI** and **Google Gemini** to automate deep research, analysis, and technical writing.
+A professional-grade **Multi-Agent System (MAS)** built with **CrewAI**, **Streamlit**, and **Google Gemini / Groq**. This project demonstrates autonomous collaboration between specialized AI agents to produce high-fidelity technical research reports.
 
-## 🚀 Overview
-This system demonstrates the core concepts of Multi-Agent Systems, including:
-- **Autonomy**: Agents make independent decisions on how to search and analyze.
-- **Social Ability**: Agents work together in a sequential pipeline to share context and memory.
-- **Specialization**: Each agent has a distinct role, goal, and backstory.
-- **Tool Usage**: Integration with DuckDuckGo for live environment interaction.
+![Project Preview](output.png)
 
-## 👥 The Crew
-1. **Deep Search Researcher**: Scours the web for raw data and recent developments.
-2. **Technical Strategy Analyst**: Synthesizes data into structured technical insights.
-3. **Chief Scientific Editor**: Formats and polishes the final research paper.
+## 🚀 Key Features
 
-## 🛠️ Tech Stack
-- **Framework**: CrewAI
-- **Brain**: Google Gemini 1.5 Flash
-- **Orchestration**: Python
-- **UI**: Streamlit (Premium Dark Theme)
+- **Autonomous Web Research**: Real-time information gathering using DuckDuckGo.
+- **Strategic Analysis**: Intelligent categorization of findings into Technical Feasibility, Market Impact, and Challenges.
+- **Professional Drafting**: Automated Markdown report generation by a specialized Scientific Editor.
+- **Model Agnostic**: Seamlessly swap between **Google Gemini 2.0** and **Groq (Llama 3.3)**.
+- **Rate-Limit Management**: Internal governor (`max_rpm`) to handle free-tier API constraints.
+- **Robust Architecture**: Engineered for Windows with forced UTF-8 encoding and thread-safety.
 
-## 📥 Installation
-1. Ensure you have Python 3.10+ installed.
-2. Navigate to the project folder:
+## 🏗️ MAS Architecture
+
+The system follows the **Corporate Analogy** (Agents as employees, Crew as the organization):
+
+1.  **Lead Researcher**: Perception & Search (DuckDuckGo).
+2.  **Technology Strategist**: Reasoning & Analysis (Categorization).
+3.  **Scientific Editor**: Synthesis & Reporting (Formating).
+
+### **Workflow Flowchart**
+`User Input` ➔ `Lead Researcher (Search)` ➔ `Strategist (Analyze)` ➔ `Scientific Editor (Write)` ➔ `Final Markdown Report`
+
+## 🛠️ Technical Stack
+
+- **Framework**: [CrewAI](https://crewai.com)
+- **Frontend**: Streamlit
+- **LLMs**: Google Gemini 2.0 Flash / Groq Llama 3.3 70B
+- **Search Engine**: DuckDuckGo (via LangChain)
+- **Environment**: Python 3.11+ / Windows
+
+## 📦 Installation & Setup
+
+1. **Clone the repository**:
    ```bash
+   git clone [REPLACE_WITH_YOUR_URL]
    cd AI_Research_Lab
    ```
-3. Create a virtual environment and install dependencies:
+
+2. **Create a Virtual Environment**:
    ```bash
    python -m venv venv
    source venv/bin/activate  # On Windows: venv\Scripts\activate
+   ```
+
+3. **Install Dependencies**:
+   ```bash
    pip install -r requirements.txt
    ```
 
-## 🏃 Running the Lab
-1. Run the Streamlit application:
+4. **Environment Variables**:
+   Create a `.env` file or use the UI sidebar to enter your keys:
+   - `GOOGLE_API_KEY`: Get from [AI Studio](https://aistudio.google.com/)
+   - `GROQ_API_KEY`: Get from [Groq Console](https://console.groq.com/)
+
+5. **Run the App**:
    ```bash
    streamlit run app.py
    ```
-2. Enter your **Google API Key** in the sidebar.
-3. Type a research topic and watch the agents collaborate in the terminal!
 
-## 📄 Output
-The system generates a high-quality Markdown report named `research_report.md` in the root directory.
+## 🎓 Theory & Concepts (MAS)
+
+This project implements several core Multi-Agent System foundations:
+- **Autonomy**: Agents make independent decisions based on their roles.
+- **Social Ability**: Agents use **Request/Inform** speech acts via CrewAI's delegation system.
+- **Knowledge Modeling**: Grounding through real-time perception (web search).
+- **Shared Context**: Strategic passing of information through a sequential pipeline.
+
+---
+*Developed for the 9th iCog Training - Autonomous Multi-Agent Systems Task.*

@@ -5,3 +5,4 @@ streamlit
 duckduckgo-search
 langchain_google_genai
 langchain-community
+langchain-groq
